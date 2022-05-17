@@ -1,157 +1,229 @@
+import 'package:ecommarce_app/Controller/popular_product_controller.dart';
+import 'package:ecommarce_app/Controller/recommended_product_controller.dart';
+import 'package:ecommarce_app/Utilis/app_constant.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import 'package:ecommarce_app/Utilis/colors.dart';
 import 'package:ecommarce_app/Utilis/dimensions.dart';
+import 'package:ecommarce_app/routes/route_helper.dart';
 import 'package:ecommarce_app/widgets/app_icon.dart';
 import 'package:ecommarce_app/widgets/big_text.dart';
 import 'package:ecommarce_app/widgets/expandable_text_widgets.dart';
-import 'package:flutter/material.dart';
+
+import '../../Controller/card_controller.dart';
 
 class RecommandedFoodDetails extends StatelessWidget {
-  const RecommandedFoodDetails({Key? key}) : super(key: key);
+  final int pageId;
+  const RecommandedFoodDetails({
+    Key? key,
+    required this.pageId,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var recommendedProduct =
+        Get.find<RecommendedProductController>().recommendedProductList[pageId];
+    Get.find<PopularProductController>()
+        .initProduct(recommendedProduct, Get.find<CartController>());
     return Scaffold(
-      body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
-        slivers: [
-          SliverAppBar(
-            toolbarHeight: 70,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppIcon(icon: Icons.clear),
-                AppIcon(icon: Icons.shopping_cart_outlined),
-              ],
-            ),
-            bottom: PreferredSize(
-              preferredSize: Size.fromHeight(20),
-              child: Container(
-                padding: EdgeInsets.only(top: 5, bottom: 10),
-                child: Center(
-                  child: BigText(
-                    text: "Chenese Side",
-                    size: Dimensions.font26,
+        body: CustomScrollView(
+          physics: BouncingScrollPhysics(),
+          slivers: [
+            SliverAppBar(
+              automaticallyImplyLeading: false,
+              toolbarHeight: 70,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Get.toNamed(RouteHelper.getInitial());
+                    },
+                    child: AppIcon(icon: Icons.clear),
                   ),
-                ),
-                width: double.maxFinite,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(Dimensions.radius20),
-                      topRight: Radius.circular(Dimensions.radius20),
-                    )),
+                  GetBuilder<PopularProductController>(builder: (controller) {
+                    return Stack(
+                      children: [
+                        AppIcon(icon: Icons.shopping_cart_outlined),
+                        Get.find<PopularProductController>().totalItems >= 1
+                            ? Positioned(
+                                right: 0,
+                                top: 0,
+                                child: AppIcon(
+                                  icon: Icons.circle,
+                                  size: 20,
+                                  iconColor: Colors.transparent,
+                                  backgroundColor: AppColors.maincolor,
+                                ),
+                              )
+                            : Container(),
+                        Get.find<PopularProductController>().totalItems >= 1
+                            ? Positioned(
+                                right: 4,
+                                top: 4,
+                                child: BigText(
+                                  text: controller.totalItems.toString(),
+                                  size: 12,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : Container(),
+                      ],
+                    );
+                  })
+                ],
               ),
-            ),
-            pinned: true,
-            backgroundColor: AppColors.yellowColor,
-            expandedHeight: 300,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Image.asset(
-                "assets/food0.jpg",
-                width: double.maxFinite,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
-              child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.only(
-                    left: Dimensions.width20, right: Dimensions.width20),
-                child: ExpandableTextWidgets(
-                    text:
-                        " One method of preparing chow mein noodles is to fry them separately into a “noodle pancake” and then pour the stir-fried meat and vegetables over the fried noodles. The chow mein noodles can also be stir-fried with meat/poultry and vegetables.With lo mein, the parboiled noodles are frequently added near the end of cooking to heat through and toss with the other ingredients and sauce. Alternately, the parboiled noodles may be tossed with a sauce and the stir-fried ingredients poured over.Since the real star of any lo mein dish is the sauce, it's not surprising that lo mein recipes often use more sauce than chow mein recipes. One method of preparing chow mein noodles is to fry them separately into a “noodle pancake” and then pour the stir-fried meat and vegetables over the fried noodles. The chow mein noodles can also be stir-fried with meat/poultry and vegetables.With lo mein, the parboiled noodles are frequently added near the end of cooking to heat through and toss with the other ingredients and sauce. Alternately, the parboiled noodles may be tossed with a sauce and the stir-fried ingredients poured over.Since the real star of any lo mein dish is the sauce, it's not surprising that lo mein recipes often use more sauce than chow mein recipes. One method of preparing chow mein noodles is to fry them separately into a “noodle pancake” and then pour the stir-fried meat and vegetables over the fried noodles. The chow mein noodles can also be stir-fried with meat/poultry and vegetables.With lo mein, the parboiled noodles are frequently added near the end of cooking to heat through and toss with the other ingredients and sauce. Alternately, the parboiled noodles may be tossed with a sauce and the stir-fried ingredients poured over.Since the real star of any lo mein dish is the sauce, it's not surprising that lo mein recipes often use more sauce than chow mein recipes. One method of preparing chow mein noodles is to fry them separately into a “noodle pancake” and then pour the stir-fried meat and vegetables over the fried noodles. The chow mein noodles can also be stir-fried with meat/poultry and vegetables.With lo mein, the parboiled noodles are frequently added near the end of cooking to heat through and toss with the other ingredients and sauce. Alternately, the parboiled noodles may be tossed with a sauce and the stir-fried ingredients poured over.Since the real star of any lo mein dish is the sauce, it's not surprising that lo mein recipes often use more sauce than chow mein recipes. One method of preparing chow mein noodles is to fry them separately into a “noodle pancake” and then pour the stir-fried meat and vegetables over the fried noodles. The chow mein noodles can also be stir-fried with meat/poultry and vegetables.With lo mein, the parboiled noodles are frequently added near the end of cooking to heat through and toss with the other ingredients and sauce. Alternately, the parboiled noodles may be tossed with a sauce and the stir-fried ingredients poured over.Since the real star of any lo mein dish is the sauce, it's not surprising that lo mein recipes often use more sauce than chow mein recipes."),
-              )
-            ],
-          )),
-        ],
-      ),
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: EdgeInsets.only(
-              left: Dimensions.width20 * 3,
-              right: Dimensions.width20 * 3,
-              top: Dimensions.height10,
-              bottom: Dimensions.height10,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppIcon(
-                    iconSize: Dimensions.iconSize24,
-                    iconColor: Colors.white,
-                    backgroundColor: AppColors.maincolor,
-                    icon: Icons.remove),
-                BigText(
-                  text: "\$12.88 " + " X " + " 0 ",
-                  color: AppColors.mainBlackColor,
-                  size: Dimensions.font26,
-                ),
-                AppIcon(
-                    iconSize: Dimensions.iconSize24,
-                    iconColor: Colors.white,
-                    backgroundColor: AppColors.maincolor,
-                    icon: Icons.add),
-              ],
-            ),
-          ),
-          Container(
-            height: Dimensions.bottomHeightBar,
-            padding: EdgeInsets.only(
-              top: Dimensions.height30,
-              bottom: Dimensions.height30,
-              left: Dimensions.width30,
-              right: Dimensions.width30,
-            ),
-            decoration: BoxDecoration(
-              color: AppColors.buttonBackgroundColor,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(Dimensions.radius20 * 2),
-                topRight: Radius.circular(Dimensions.radius20 * 2),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                    padding: EdgeInsets.only(
-                      top: Dimensions.height20,
-                      bottom: Dimensions.height20,
-                      left: Dimensions.width30,
-                      right: Dimensions.width30,
+              bottom: PreferredSize(
+                preferredSize: Size.fromHeight(20),
+                child: Container(
+                  padding: EdgeInsets.only(top: 5, bottom: 10),
+                  child: Center(
+                    child: BigText(
+                      text: recommendedProduct.name!,
+                      size: Dimensions.font26,
                     ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(Dimensions.radius20),
-                      color: Colors.white,
-                    ),
-                    child: Icon(
-                      Icons.favorite,
-                      color: AppColors.maincolor,
-                    )),
-                Container(
-                  padding: EdgeInsets.only(
-                    top: Dimensions.height20,
-                    bottom: Dimensions.height20,
-                    left: Dimensions.width30,
-                    right: Dimensions.width30,
                   ),
+                  width: double.maxFinite,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Dimensions.radius20),
-                    color: AppColors.maincolor,
-                  ),
-                  child: BigText(
-                    text: "\$10 | Add to card",
-                    color: Colors.white,
-                  ),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(Dimensions.radius20),
+                        topRight: Radius.circular(Dimensions.radius20),
+                      )),
+                ),
+              ),
+              pinned: true,
+              backgroundColor: AppColors.yellowColor,
+              expandedHeight: 300,
+              flexibleSpace: FlexibleSpaceBar(
+                background: Image.network(
+                  AppConstants.BASE_URL +
+                      AppConstants.UPLOAD_URL +
+                      recommendedProduct.img!,
+                  width: double.maxFinite,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+                child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(
+                      left: Dimensions.width20, right: Dimensions.width20),
+                  child: ExpandableTextWidgets(
+                      text: recommendedProduct.description!),
                 )
               ],
-            ),
-          ),
-        ],
-      ),
-    );
+            )),
+          ],
+        ),
+        bottomNavigationBar:
+            GetBuilder<PopularProductController>(builder: (controller) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: EdgeInsets.only(
+                  left: Dimensions.width20 * 3,
+                  right: Dimensions.width20 * 3,
+                  top: Dimensions.height10,
+                  bottom: Dimensions.height10,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: (() {
+                        controller.setQuantity(false);
+                      }),
+                      child: AppIcon(
+                          iconSize: Dimensions.iconSize24,
+                          iconColor: Colors.white,
+                          backgroundColor: AppColors.maincolor,
+                          icon: Icons.remove),
+                    ),
+                    BigText(
+                      text:
+                          "\$ ${recommendedProduct.price!}  X  ${controller.inCardItems} ",
+                      color: AppColors.mainBlackColor,
+                      size: Dimensions.font26,
+                    ),
+                    GestureDetector(
+                      onTap: (() {
+                        controller.setQuantity(true);
+                      }),
+                      child: AppIcon(
+                          iconSize: Dimensions.iconSize24,
+                          iconColor: Colors.white,
+                          backgroundColor: AppColors.maincolor,
+                          icon: Icons.add),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                height: Dimensions.bottomHeightBar,
+                padding: EdgeInsets.only(
+                  top: Dimensions.height30,
+                  bottom: Dimensions.height30,
+                  left: Dimensions.width30,
+                  right: Dimensions.width30,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.buttonBackgroundColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(Dimensions.radius20 * 2),
+                    topRight: Radius.circular(Dimensions.radius20 * 2),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                        padding: EdgeInsets.only(
+                          top: Dimensions.height20,
+                          bottom: Dimensions.height20,
+                          left: Dimensions.width30,
+                          right: Dimensions.width30,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.circular(Dimensions.radius20),
+                          color: Colors.white,
+                        ),
+                        child: Icon(
+                          Icons.favorite,
+                          color: AppColors.maincolor,
+                        )),
+                    GestureDetector(
+                      onTap: (() {
+                        controller.addItem(recommendedProduct);
+                      }),
+                      child: Container(
+                        padding: EdgeInsets.only(
+                          top: Dimensions.height20,
+                          bottom: Dimensions.height20,
+                          left: Dimensions.width30,
+                          right: Dimensions.width30,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.circular(Dimensions.radius20),
+                          color: AppColors.maincolor,
+                        ),
+                        child: BigText(
+                          text: "\$ ${recommendedProduct.price!} | Add to card",
+                          color: Colors.white,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          );
+        }));
   }
 }

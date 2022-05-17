@@ -13,23 +13,24 @@ class RecommendedProductController extends GetxController {
 
   List<dynamic> _recommendedProductList = [];
   //we can get the data anywhere by using get method
-  List<dynamic> get popularProductList => _recommendedProductList;
+  List<dynamic> get recommendedProductList => _recommendedProductList;
 
   bool _isLoaded = false;
   bool get isLoaded => _isLoaded;
 
   Future<void> getRecommendedProductList() async {
     // call from respository
-    Response response = await recommendedProductRepo.getRecommendedProductList();
+    Response response =
+        await recommendedProductRepo.getRecommendedProductList();
     //check correct response or not
     if (response.statusCode == 200) {
-      print("got products");
       _recommendedProductList = [];
       //add and retrun the list of object
       _recommendedProductList.addAll(Product.fromJson(response.body).products);
-      // print(_popularProductList);
       _isLoaded = true;
       update(); //this update more like setstate method
-    } else {}
+    } else {
+      print("could not get  products Recommended");
+    }
   }
 }

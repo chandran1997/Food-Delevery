@@ -22,16 +22,17 @@ class _ExpandableTextWidgetsState extends State<ExpandableTextWidgets> {
   bool hiddenText = true;
   bool flag = true;
 
-  double textHeight = Dimensions.screenHeight / 5.6;
+  double textHeight = Dimensions.screenHeight / 5.8;
 
   @override
   void initState() {
     super.initState();
-    firstHalf = widget.text.substring(0, textHeight.toInt());
-    secondHalf = widget.text.substring(textHeight.toInt() + 1, widget.text.length);
+
     if (widget.text.length > textHeight.toInt()) {
-      firstHalf; //  total 50 line - first 30 line
-      secondHalf; //last 20 line
+      firstHalf = widget.text
+          .substring(0, textHeight.toInt()); //  total 50 line - first 30 line
+      secondHalf = widget.text
+          .substring(textHeight.toInt() + 1, widget.text.length); //last 20 line
     } else {
       firstHalf = widget.text;
       secondHalf = "";
@@ -42,7 +43,12 @@ class _ExpandableTextWidgetsState extends State<ExpandableTextWidgets> {
   Widget build(BuildContext context) {
     return Container(
       child: secondHalf.isEmpty
-          ? SmallText(text: firstHalf)
+          ? SmallText(
+              text: firstHalf,
+              height: 1.8,
+              size: Dimensions.font16,
+              color: AppColors.paraColor,
+            )
           : Column(
               children: [
                 hiddenText

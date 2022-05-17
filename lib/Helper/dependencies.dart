@@ -1,5 +1,7 @@
+import 'package:ecommarce_app/Controller/card_controller.dart';
 import 'package:ecommarce_app/Controller/recommended_product_controller.dart';
 import 'package:ecommarce_app/Data/api/api_client.dart';
+import 'package:ecommarce_app/Data/respository/cart_repo.dart';
 import 'package:ecommarce_app/Data/respository/popular_product_repo.dart';
 import 'package:ecommarce_app/Data/respository/recommended_product_repo.dart';
 import 'package:ecommarce_app/Utilis/app_constant.dart';
@@ -14,9 +16,11 @@ Future<void> init() async {
   // load respository
   Get.lazyPut(() => PopularProductRepo(apiClient: Get.find()));
   Get.lazyPut(() => RecommendedProductRepo(apiClient: Get.find()));
+  Get.lazyPut(() => CardRepo());
 
   //load controllers
   Get.lazyPut(() => PopularProductController(popularProductRepo: Get.find()));
   Get.lazyPut(
       () => RecommendedProductController(recommendedProductRepo: Get.find()));
+  Get.lazyPut(() => CartController(cardRepo: Get.find()));
 }
