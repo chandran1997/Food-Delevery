@@ -1,7 +1,7 @@
 import 'package:ecommarce_app/Utilis/app_constant.dart';
-import 'package:get/get.dart';
 
 import 'package:ecommarce_app/Data/api/api_client.dart';
+import 'package:get/get.dart';
 
 class RecommendedProductRepo extends GetxService {
   final ApiClient apiClient;

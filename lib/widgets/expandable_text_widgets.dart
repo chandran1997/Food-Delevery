@@ -2,7 +2,7 @@ import 'package:ecommarce_app/Utilis/colors.dart';
 import 'package:ecommarce_app/Utilis/dimensions.dart';
 import 'package:ecommarce_app/widgets/small_text.dart';
 import 'package:flutter/material.dart';
-import 'package:expandable/expandable.dart';
+
 
 class ExpandableTextWidgets extends StatefulWidget {
   final String text;

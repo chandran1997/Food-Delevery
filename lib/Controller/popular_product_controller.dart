@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:ecommarce_app/Controller/card_controller.dart';
 import 'package:ecommarce_app/Models/card_model.dart';
+
 import 'package:ecommarce_app/Models/products_models.dart';
 import 'package:ecommarce_app/Utilis/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'package:ecommarce_app/Data/respository/popular_product_repo.dart';
+import 'package:flutter/src/foundation/change_notifier.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class PopularProductController extends GetxController {
   final PopularProductRepo popularProductRepo;
@@ -37,8 +42,11 @@ class PopularProductController extends GetxController {
       //add and retrun the list of object
       _popularProductList.addAll(Product.fromJson(response.body).products);
       _isLoaded = true;
+
       update(); //this update more like setstate method
-    } else {}
+    } else {
+      print("could not get the product");
+    }
   }
 
   void setQuantity(bool isIncrement) {
@@ -114,7 +122,20 @@ class PopularProductController extends GetxController {
     update();
   }
 
+  void addtocardPageItems(ProductModel product, int quantity) {
+    _cart.addItem(product, quantity);
+    update();
+  }
+
   int get totalItems {
     return _cart.totalItems;
+  }
+
+  List<CardModel> get getItems {
+    return _cart.getItems;
+  }
+
+  int get totalAmount {
+    return _cart.totalAmount;
   }
 }

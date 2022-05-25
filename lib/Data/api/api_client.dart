@@ -1,5 +1,8 @@
+
+
 import 'package:ecommarce_app/Utilis/app_constant.dart';
 import 'package:get/get.dart';
+
 
 class ApiClient extends GetConnect implements GetxService {
   String? token; //token id
@@ -10,7 +13,7 @@ class ApiClient extends GetConnect implements GetxService {
   }) {
     //getx package management system
     baseUrl = appBaseUrl;
-    timeout = Duration(seconds: 30);
+    timeout = const Duration(seconds: 30);
     token = AppConstants.TOKEN;
     _mainHeaders = {
       'Content-type': 'application/json; charset=UTF-8',

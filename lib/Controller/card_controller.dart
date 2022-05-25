@@ -19,7 +19,7 @@ class CartController extends GetxController {
   void addItem(ProductModel product, int quantity) {
     // print("length of the items is " + _items.length.toString());
     var totalQuantity = 0;
-    //update the add and update the cart
+
     if (_items.containsKey(product.id!)) {
       _items.update(product.id!, (value) {
         totalQuantity = value.quantity! + quantity;
@@ -32,6 +32,7 @@ class CartController extends GetxController {
           quantity: value.quantity! + quantity,
           isExist: true,
           time: DateTime.now().toString(),
+          product: product,
         );
       });
 
@@ -49,6 +50,7 @@ class CartController extends GetxController {
             quantity: quantity,
             isExist: true,
             time: DateTime.now().toString(),
+            product: product,
           );
         });
       } else {
@@ -60,6 +62,7 @@ class CartController extends GetxController {
         );
       }
     }
+    update();
   }
 
   bool existInCard(ProductModel product) {
@@ -88,8 +91,26 @@ class CartController extends GetxController {
     _items.forEach((key, value) {
       totalQuantity += value.quantity!;
     });
+    //update
+    update();
     return totalQuantity;
   }
 
-  
+  List<CardModel> get getItems {
+    //entries helps to create another map
+    var getItems = _items.entries.map((e) {
+      return e.value;
+    }).toList();
+
+    return getItems;
+  }
+
+  int get totalAmount {
+    var total = 0;
+    _items.forEach((key, value) {
+      total += value.quantity! * value.price!;
+    });
+    // update();
+    return total;
+  }
 }

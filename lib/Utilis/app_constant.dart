@@ -8,5 +8,6 @@ class AppConstants {
   static const String UPLOAD_URL = "/uploads/";
 
   static const String TOKEN = "DBtoken";
+  // static const String TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODM1MzliZDFjNTljMjU2ZmI0YmU1ZCIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTY1Mjg1NjM4NywiZXhwIjoxNjU1NDQ4Mzg3fQ.2FyAEhoG2WowAn1RIB7wevHJcKTcT_a6MVA3M1ViWjY";
   
 }

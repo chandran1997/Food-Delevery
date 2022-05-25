@@ -1,7 +1,8 @@
-import 'package:ecommarce_app/Models/products_models.dart';
-import 'package:get/get.dart';
+import 'dart:convert';
 
-import 'package:ecommarce_app/Data/respository/popular_product_repo.dart';
+import 'package:ecommarce_app/Models/products_models.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 
 import '../Data/respository/recommended_product_repo.dart';
 
@@ -28,7 +29,8 @@ class RecommendedProductController extends GetxController {
       //add and retrun the list of object
       _recommendedProductList.addAll(Product.fromJson(response.body).products);
       _isLoaded = true;
-      update(); //this update more like setstate method
+      update();
+      //this update more like setstate method
     } else {
       print("could not get  products Recommended");
     }

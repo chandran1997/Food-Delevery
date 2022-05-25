@@ -1,9 +1,9 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:ecommarce_app/Controller/popular_product_controller.dart';
 import 'package:ecommarce_app/Controller/recommended_product_controller.dart';
-import 'package:ecommarce_app/Data/respository/popular_product_repo.dart';
+
 import 'package:ecommarce_app/Models/products_models.dart';
-import 'package:ecommarce_app/Screens/food/popular_food_details.dart';
+
 import 'package:ecommarce_app/Utilis/app_constant.dart';
 import 'package:ecommarce_app/Utilis/colors.dart';
 import 'package:ecommarce_app/Utilis/dimensions.dart';
@@ -14,6 +14,8 @@ import 'package:ecommarce_app/widgets/icon_and_text_widget.dart';
 import 'package:ecommarce_app/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'package:provider/provider.dart';
 
 class FoodPageBody extends StatefulWidget {
   const FoodPageBody({Key? key}) : super(key: key);
@@ -27,9 +29,11 @@ class _FoodPageBodyState extends State<FoodPageBody> {
   var _currentpageValue = 0.0;
   double _scaleFactor = 0.8;
   double _height = Dimensions.pageViewContainer;
+
   @override
   void initState() {
     super.initState();
+
     pageController.addListener(() {
       setState(() {
         _currentpageValue = pageController.page!;
@@ -39,8 +43,8 @@ class _FoodPageBodyState extends State<FoodPageBody> {
 
   @override
   void dispose() {
-    super.dispose();
     pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -48,25 +52,24 @@ class _FoodPageBodyState extends State<FoodPageBody> {
     return Column(
       children: [
         //slider Section
-        GetBuilder<PopularProductController>(
-          builder: ((popularProduct) {
-            return popularProduct.isLoaded
-                ? Container(
-                    // color: Colors.green,
-                    height: Dimensions.pageView,
-                    child: PageView.builder(
-                        controller: pageController,
-                        itemCount: popularProduct.popularProductList.length,
-                        itemBuilder: (context, position) {
-                          return _buildPageITem(position,
-                              popularProduct.popularProductList[position]);
-                        }),
-                  )
-                : CircularProgressIndicator(
-                    color: AppColors.maincolor,
-                  );
-          }),
-        ),
+
+        GetBuilder<PopularProductController>(builder: (popularProduct) {
+          return popularProduct.isLoaded
+              ? Container(
+                  // color: Colors.green,
+                  height: Dimensions.pageView,
+                  child: PageView.builder(
+                      controller: pageController,
+                      itemCount: popularProduct.popularProductList.length,
+                      itemBuilder: (context, position) {
+                        return _buildPageITem(position,
+                            popularProduct.popularProductList[position]);
+                      }),
+                )
+              : CircularProgressIndicator(
+                  color: AppColors.maincolor,
+                );
+        }),
 
         //dots
         GetBuilder<PopularProductController>(builder: (popularProducts) {
@@ -125,7 +128,8 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
-                        Get.toNamed(RouteHelper.getRecommendedFood(index));
+                        Get.toNamed(
+                            RouteHelper.getRecommendedFood(index, "home"));
                       },
                       child: Container(
                         margin: EdgeInsets.only(
@@ -256,7 +260,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
         children: [
           GestureDetector(
             onTap: () {
-              Get.toNamed(RouteHelper.getPopularFood(index));
+              Get.toNamed(RouteHelper.getPopularFood(index, "home"));
             },
             child: Container(
               height: Dimensions.pageViewContainer,

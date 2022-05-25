@@ -1,9 +1,11 @@
-import 'package:ecommarce_app/Controller/popular_product_controller.dart';
-import 'package:ecommarce_app/Controller/recommended_product_controller.dart';
-import 'package:ecommarce_app/Utilis/app_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+
+import 'package:ecommarce_app/Controller/popular_product_controller.dart';
+import 'package:ecommarce_app/Controller/recommended_product_controller.dart';
+import 'package:ecommarce_app/Screens/cards/cart_page.dart';
+import 'package:ecommarce_app/Utilis/app_constant.dart';
 import 'package:ecommarce_app/Utilis/colors.dart';
 import 'package:ecommarce_app/Utilis/dimensions.dart';
 import 'package:ecommarce_app/routes/route_helper.dart';
@@ -14,9 +16,11 @@ import 'package:ecommarce_app/widgets/expandable_text_widgets.dart';
 import '../../Controller/card_controller.dart';
 
 class RecommandedFoodDetails extends StatelessWidget {
+  final String page;
   final int pageId;
   const RecommandedFoodDetails({
     Key? key,
+    required this.page,
     required this.pageId,
   }) : super(key: key);
 
@@ -26,6 +30,13 @@ class RecommandedFoodDetails extends StatelessWidget {
         Get.find<RecommendedProductController>().recommendedProductList[pageId];
     Get.find<PopularProductController>()
         .initProduct(recommendedProduct, Get.find<CartController>());
+    // var recommendedProduct =
+    //     Provider.of<RecommendedProductController>(context, listen: false)
+    //         .recommendedProductList[pageId];
+    // Provider.of<PopularProductController>(context, listen: false).initProduct(
+    //     recommendedProduct,
+    //     Provider.of<CartController>(context, listen: false));
+
     return Scaffold(
         body: CustomScrollView(
           physics: BouncingScrollPhysics(),
@@ -38,38 +49,49 @@ class RecommandedFoodDetails extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Get.toNamed(RouteHelper.getInitial());
+                      if (page == "cartPage") {
+                        Get.toNamed(RouteHelper.getCartPage());
+                      } else {
+                        Get.toNamed(RouteHelper.getInitial());
+                      }
                     },
                     child: AppIcon(icon: Icons.clear),
                   ),
                   GetBuilder<PopularProductController>(builder: (controller) {
-                    return Stack(
-                      children: [
-                        AppIcon(icon: Icons.shopping_cart_outlined),
-                        Get.find<PopularProductController>().totalItems >= 1
-                            ? Positioned(
-                                right: 0,
-                                top: 0,
-                                child: AppIcon(
-                                  icon: Icons.circle,
-                                  size: 20,
-                                  iconColor: Colors.transparent,
-                                  backgroundColor: AppColors.maincolor,
-                                ),
-                              )
-                            : Container(),
-                        Get.find<PopularProductController>().totalItems >= 1
-                            ? Positioned(
-                                right: 4,
-                                top: 4,
-                                child: BigText(
-                                  text: controller.totalItems.toString(),
-                                  size: 12,
-                                  color: Colors.white,
-                                ),
-                              )
-                            : Container(),
-                      ],
+                    return GestureDetector(
+                      onTap: (() {
+                        if (controller.totalItems >= 1) {
+                          Get.toNamed(RouteHelper.getCartPage());
+                        }
+                      }),
+                      child: Stack(
+                        children: [
+                          AppIcon(icon: Icons.shopping_cart_outlined),
+                          controller.totalItems >= 1
+                              ? Positioned(
+                                  right: 0,
+                                  top: 0,
+                                  child: AppIcon(
+                                    icon: Icons.circle,
+                                    size: 20,
+                                    iconColor: Colors.transparent,
+                                    backgroundColor: AppColors.maincolor,
+                                  ),
+                                )
+                              : Container(),
+                          controller.totalItems >= 1
+                              ? Positioned(
+                                  right: 4,
+                                  top: 4,
+                                  child: BigText(
+                                    text: controller.totalItems.toString(),
+                                    size: 12,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : Container(),
+                        ],
+                      ),
                     );
                   })
                 ],
